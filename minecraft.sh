@@ -36,6 +36,10 @@ if [ "${EULA,,}" = "true" ] && [ ! -e "/minecraft/eula.txt" ];then
     echo "eula=true" > "/minecraft/eula.txt"
 fi
 
+# もし残ってたら消す
+if [ -e "/run/minecraft" ];then
+    unlink /run/minecraft
+fi
 # SIGTERMされたらstopを送るようにする
 mkfifo -m 600 /run/minecraft
 trap "echo stop > /run/minecraft" SIGTERM SIGINT
